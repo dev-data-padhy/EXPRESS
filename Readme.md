@@ -7,14 +7,11 @@ Simple Employee CRUD API built with Express and MongoDB, documented using Swagge
 - Get all employees
 - Get employee by ID
 - Update employee
-- Soft delete employee
-
----
+- delete employee ( Soft )
 
 ## Tech Stack
 - Node.js
 - Express
 - MongoDB + Mongoose
 - MySql / Postgres
----
 
