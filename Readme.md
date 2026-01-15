@@ -15,6 +15,6 @@ Simple Employee CRUD API built with Express and MongoDB, documented using Swagge
 - Node.js
 - Express
 - MongoDB + Mongoose
-
+- MySql / Postgres
 ---
 
