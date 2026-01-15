@@ -9,12 +9,9 @@ Simple Employee CRUD API built with Express and MongoDB, documented using Swagge
 - Update employee
 - Soft delete employee
 
----
-
 ## Tech Stack
 - Node.js
 - Express
 - MongoDB + Mongoose
 - MySql / Postgres
----
 
