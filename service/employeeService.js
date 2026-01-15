@@ -1,27 +1,27 @@
 import Employee from "../model/employeeModel.js";
 
 const getEmployees = async (req, res) => {
-    try {
-        const emp=await Employee.find({ $or: [
-        { deleted: false },
-        { deleted: { $exists: false } }
-      ] });
+   try{
+        const emp=await Employee.find({$or:[{delted:false},
+          {deleted:{$exists:false}}
+
+        ]});
         res.status(200).json(emp);
-    } catch (error) {
+      } catch(error){
         res.status(404).json({ message: error.message });
-    }
+   }
 };
 
 const getOneEmployee = async (req, res) => {
-     try {
-        const emp=await Employee.findById(req.params.id);
-        res.status(200).json(emp);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-};
+   try{
 
-const createEmployee = async (req, res) => {
+    const emp=await Employee.findById(req.params.id);
+    res.status(200).json(emp);
+   } catch (error){
+    res.status(404).json({ message: error.message });
+   }
+  };
+  const createEmployee = async (req, res) => {
     const {ename, epassword, ephone, email} = req.body;
     try {
         await Employee.create({ename, epassword, ephone, email});
