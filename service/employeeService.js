@@ -1,12 +1,13 @@
 import Employee from "../model/employeeModel.js";
+import { employeeListResponse, employeeResponse } from "../response/employeeResponse.js";
 
 const getEmployees = async (req, res) => {
    try{
-        const emp=await Employee.find({$or:[{delted:false},
+        const emp=await Employee.find({$or:[{deleted:false},
           {deleted:{$exists:false}}
 
         ]});
-        res.status(200).json(emp);
+        res.status(200).json(employeeListResponse(emp));
       } catch(error){
         res.status(404).json({ message: error.message });
    }
@@ -16,7 +17,7 @@ const getOneEmployee = async (req, res) => {
    try{
 
     const emp=await Employee.findById(req.params.id);
-    res.status(200).json(emp);
+    res.status(200).json(employeeResponse(emp));
    } catch (error){
     res.status(404).json({ message: error.message });
    }
@@ -50,7 +51,7 @@ const updateEmployee = async (req, res) => {
 
     res.status(200).json({
       message: "Employee updated successfully",
-      data: updatedEmployee
+      data: employeeResponse(updatedEmployee)
     });
   } catch (error) {
     res.status(409).json({ message: error.message });

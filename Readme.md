@@ -15,3 +15,10 @@ Simple Employee CRUD API built with Express and MongoDB, documented using Swagge
 - MongoDB + Mongoose
 - MySql / Postgres
 
+## Deployed
+
+- Render
+- AWS Lambda
+- AWS Beanstalk
+- Supabase
+
