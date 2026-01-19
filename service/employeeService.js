@@ -1,41 +1,39 @@
+import asyncHandler from "express-async-handler";
 import Employee from "../model/employeeModel.js";
+import { executeQuery } from "../utils/queryHelper.js";
 import { employeeListResponse, employeeResponse } from "../response/employeeResponse.js";
 
-const getEmployees = async (req, res) => {
-   try{
-        const emp=await Employee.find({$or:[{deleted:false},
-          {deleted:{$exists:false}}
+const getEmployees = asyncHandler(async (req, res) => {
+  const result = await executeQuery({
+    model: Employee,
+    req,
+    searchableFields: ["ename", "email", "ephone"],
+    baseFilter: {
+      $or: [{ deleted: false }, { deleted: { $exists: false } }],
+    },
+  });
 
-        ]});
-        res.status(200).json(employeeListResponse(emp));
-      } catch(error){
-        res.status(404).json({ message: error.message });
-   }
-};
+  res.status(200).json({
+    data: employeeListResponse(result.data),
+    ...result,    
+  });
+});
 
-const getOneEmployee = async (req, res) => {
-   try{
-
+const getOneEmployee = asyncHandler(async (req, res) => {
     const emp=await Employee.findById(req.params.id);
     res.status(200).json(employeeResponse(emp));
-   } catch (error){
-    res.status(404).json({ message: error.message });
-   }
-  };
-  const createEmployee = async (req, res) => {
+
+});
+
+const createEmployee = asyncHandler(async (req, res) => {
     const {ename, epassword, ephone, email} = req.body;
-    try {
-        await Employee.create({ename, epassword, ephone, email});
-        res.status(201).json("Employee created successfully");
-    } catch (error) {
-        res.status(409).json({ message: error.message });
-    }
-};
+    await Employee.create({ename, epassword, ephone, email});
+    res.status(201).json("Employee created successfully");
+});
 
-const updateEmployee = async (req, res) => {
-  const { id } = req.params;
-
-  try {
+const updateEmployee = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+  
     const updatedEmployee = await Employee.findByIdAndUpdate(
         id,
         { $set: req.body },
@@ -52,17 +50,13 @@ const updateEmployee = async (req, res) => {
     res.status(200).json({
       message: "Employee updated successfully",
       data: employeeResponse(updatedEmployee)
-    });
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-};
+    });  
+});
 
 
-const deleteEmployee = async (req, res) => {
+const deleteEmployee = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  try {
     const deletedEmployee = await Employee.findByIdAndUpdate(
       id,
       { $set: { deleted: true } },
@@ -76,11 +70,9 @@ const deleteEmployee = async (req, res) => {
     res.status(200).json({
       message: "Employee deleted successfully (soft delete)",
       data: deletedEmployee
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+    }); 
+    
+});
 
 
 export {
