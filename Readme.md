@@ -22,3 +22,4 @@ Simple Employee CRUD API built with Express and MongoDB, documented using Swagge
 - AWS Beanstalk
 - Supabase
 - Netlify
+- Vercel
